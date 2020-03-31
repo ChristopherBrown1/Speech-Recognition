@@ -1,3 +1,6 @@
+# This is a speech recognition system created by Christopher Brown
+# Feel free to add something to make it more fun.
+
 import speech_recognition as sr
 
 r = sr.Recognizer()
