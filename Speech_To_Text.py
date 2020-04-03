@@ -2,9 +2,11 @@
 # Program that helps users learn famous phrases or phrases they input.
 # Feel free to add something to make it more fun.
 
-# TODO: Add phrases for people
+# TODO: Add phrases for people.
 # TODO: Check if that phrase matches the selected phrase. Hide the phrase they select on the side.
-# TODO: Create hint boxes that show the next word in the phrase.
+# TODO: Create hint boxes that show the next word in the guessed phrase label.
+# TODO: Allow user go through a whole speech line by line
+# TODO: Make things look pretty. :)
 
 import speech_recognition as sr
 from tkinter import *
@@ -13,7 +15,7 @@ from tkinter import *
 def speech_to_text():
     entry_phrase.delete(0, END)
     r = sr.Recognizer()
-
+    # I want to add a label that say's "Say something" when user clicks the speak button
     with sr.Microphone() as source:
         audio = r.listen(source)
 
@@ -31,9 +33,64 @@ def speech_to_text():
     return
 
 
+def phrase_selection(phrase):
+    global selected_phrase
+    selected_phrase = phrase
+    # The guessed phrase should have spaces between the words in the string.
+    # If a user clicks hint button one word in the phrase should appear
+    guessed_phrase = "_ " * len(phrase)
+    label_comparison_text = Label(root, text=guessed_phrase)
+    label_comparison_text.grid(row=4, column=2, columnspan=2)
+    label_comparison_text.update()
+
+    return
+
+
+def compare():
+    if user_phrase == selected_phrase:
+        label_outcome = Label(root, text="Correct!")
+    else:
+        label_outcome = Label(root, text="You suck at this...")
+
+    label_outcome.grid(row=5, column=2, columnspan=2)
+
+    return
+
+
 def say_something():
     label_say_something.config(text="Say something...")
     return
+
+
+# Phrases to compare... You can follow the same format for additional people.
+
+def spongebob():
+    phrase_1 = "I'm ready"
+    phrase_2 = "F is for friends who do stuff together"
+    phrase_3 = "The best time to wear a striped sweater is all the time"
+
+    # buttons for spongebob sayings
+    quote_1 = Button(root, text="1", padx=60, pady=40, command=lambda:[phrase_selection(phrase_1)])
+    quote_1.grid(row=1, column=4)
+
+    quote_1 = Button(root, text="2", padx=60, pady=40, command=lambda:[phrase_selection(phrase_2)])
+    quote_1.grid(row=2, column=4)
+
+    quote_1 = Button(root, text="3", padx=60, pady=40, command=lambda:[phrase_selection(phrase_3)])
+    quote_1.grid(row=3, column=4)
+
+    # labels for spongebob quotes
+    label_1 = Label(root, text=phrase_1)
+    label_1.grid(row=1, column=5)
+
+    label_2 = Label(root, text=phrase_2)
+    label_2.grid(row=2, column=5)
+
+    label_3 = Label(root, text=phrase_3)
+    label_3.grid(row=3, column=5)
+
+    return
+
 
 person = "user"
 phrase_1 = ""
@@ -86,57 +143,6 @@ button_lincoln.grid(row=3, column=0)
 
 button_spongebob = Button(root, text="Spongebob Squarepants", padx=60, pady=40, command=lambda:[spongebob()])
 button_spongebob.grid(row=4, column=0)
-
-# Phrase to compare
-
-def spongebob():
-    phrase_1 = "I'm ready"
-    phrase_2 = "F is for friends who do stuff together"
-    phrase_3 = "The best time to wear a striped sweater is all the time"
-
-    # buttons for spongebob sayings
-    quote_1 = Button(root, text="1", padx=60, pady=40, command=lambda:[phrase_selection(phrase_1)])
-    quote_1.grid(row=1, column=4)
-
-    quote_1 = Button(root, text="2", padx=60, pady=40, command=lambda:[phrase_selection(phrase_2)])
-    quote_1.grid(row=2, column=4)
-
-    quote_1 = Button(root, text="3", padx=60, pady=40, command=lambda:[phrase_selection(phrase_3)])
-    quote_1.grid(row=3, column=4)
-
-    # labels for spongebob quotes
-    label_1 = Label(root, text=phrase_1)
-    label_1.grid(row=1, column=5)
-
-    label_2 = Label(root, text=phrase_2)
-    label_2.grid(row=2, column=5)
-
-    label_3 = Label(root, text=phrase_3)
-    label_3.grid(row=3, column=5)
-
-    return
-
-
-def phrase_selection(phrase):
-    global selected_phrase
-    selected_phrase = phrase
-    guessed_phrase = "_ " * len(phrase)
-    label_comparison_text = Label(root, text=guessed_phrase)
-    label_comparison_text.grid(row=4, column=2, columnspan=2)
-    label_comparison_text.update()
-
-    return
-
-
-def compare():
-    if user_phrase == selected_phrase:
-        label_outcome = Label(root, text="Correct!")
-    else:
-        label_outcome = Label(root, text="You suck at this...")
-
-    label_outcome.grid(row=5, column=2, columnspan=2)
-
-    return
 
 
 root.mainloop()
